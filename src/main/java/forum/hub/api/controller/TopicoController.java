@@ -1,10 +1,7 @@
 package forum.hub.api.controller;
 
 import forum.hub.api.domain.curso.CursoRepository;
-import forum.hub.api.domain.topico.DadosCadastroTopico;
-import forum.hub.api.domain.topico.DadosListagemTopicos;
-import forum.hub.api.domain.topico.Topico;
-import forum.hub.api.domain.topico.TopicoRepository;
+import forum.hub.api.domain.topico.*;
 import forum.hub.api.domain.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +45,21 @@ public class TopicoController {
     @GetMapping("/{id}")
     public ResponseEntity detalhar(@PathVariable Long id){
         var topico = topicoRepository.getReferenceById(id);
-        return ResponseEntity.ok(new DadosListagemTopicos(topico));
+        return ResponseEntity.ok(new DadosDetalhamentoTopicos(topico));
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizarTopico dados, @PathVariable Long id){
+        var topico = topicoRepository.getReferenceById(id);
+        topico.atualizar(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoTopicos(topico));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity excluir(@PathVariable Long id){
+        topicoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
