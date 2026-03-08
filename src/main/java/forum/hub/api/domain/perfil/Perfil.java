@@ -1,6 +1,7 @@
 package forum.hub.api.domain.perfil;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,4 +19,8 @@ public class Perfil {
     private Long id;
     @Enumerated(value = EnumType.STRING)
     private Tipo nome;
+
+    public Perfil(@NotNull DadosPerfil dados) {
+        this.nome = dados.nome();
+    }
 }

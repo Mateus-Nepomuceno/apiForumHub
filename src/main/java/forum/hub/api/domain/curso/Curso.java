@@ -1,6 +1,7 @@
 package forum.hub.api.domain.curso;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,4 +20,9 @@ public class Curso {
     private String nome;
     @Enumerated(value = EnumType.STRING)
     private Categoria categoria;
+
+    public Curso(@Valid DadosCadastroCurso dados) {
+        this.nome = dados.nome();
+        this.categoria = dados.categoria();
+    }
 }
