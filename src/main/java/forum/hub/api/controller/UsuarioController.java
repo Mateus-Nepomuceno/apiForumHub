@@ -1,5 +1,7 @@
 package forum.hub.api.controller;
 
+import forum.hub.api.domain.perfil.PerfilRepository;
+import forum.hub.api.domain.perfil.Tipo;
 import forum.hub.api.domain.usuario.DadosCadastroUsuario;
 import forum.hub.api.domain.usuario.Usuario;
 import forum.hub.api.domain.usuario.UsuarioRepository;
@@ -17,13 +19,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("usuarios")
 public class UsuarioController {
     @Autowired
-    private UsuarioRepository repository;
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PerfilRepository perfilRepository;
 
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroUsuario dados, UriComponentsBuilder uriBuilder){
         var usuario = new Usuario(dados);
-        repository.save(usuario);
+        var tipoPerfil = dados.perfil().nome();
+        var perfil = perfilRepository.findByNome(tipoPerfil);
+        usuario.adicionarPerfil(perfil);
+        usuarioRepository.save(usuario);
         var uri = uriBuilder.path("usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
 
         return ResponseEntity.created(uri).build();

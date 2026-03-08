@@ -30,7 +30,7 @@ public class Usuario implements UserDetails {
     private String nome;
     private String email;
     private String senha;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "usuarios_perfis",
             joinColumns = @JoinColumn(name = "usuario_id"),
@@ -42,7 +42,6 @@ public class Usuario implements UserDetails {
         this.nome = dados.nome();
         this.email = dados.email();
         this.senha = SecurityUtils.criptografarSenha(dados.senha());
-        this.perfis.add(new Perfil(dados.perfil()));
     }
 
     @Override
@@ -78,5 +77,9 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public void adicionarPerfil(Perfil perfil) {
+        this.perfis.add(perfil);
     }
 }
