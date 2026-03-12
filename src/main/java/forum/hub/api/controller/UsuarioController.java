@@ -1,10 +1,10 @@
 package forum.hub.api.controller;
 
 import forum.hub.api.domain.perfil.PerfilRepository;
-import forum.hub.api.domain.perfil.Tipo;
 import forum.hub.api.domain.usuario.DadosCadastroUsuario;
 import forum.hub.api.domain.usuario.Usuario;
 import forum.hub.api.domain.usuario.UsuarioRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
