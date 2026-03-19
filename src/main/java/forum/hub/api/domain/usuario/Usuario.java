@@ -38,11 +38,13 @@ public class Usuario implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "perfil_id")
     )
     private List<Perfil> perfis = new ArrayList<>();
+    private Boolean ativo;
 
     public Usuario(@Valid DadosCadastroUsuario dados) {
         this.nome = dados.nome();
         this.email = dados.email();
         this.senha = SecurityUtils.criptografarSenha(dados.senha());
+        this.ativo = true;
     }
 
     @Override
@@ -82,5 +84,15 @@ public class Usuario implements UserDetails {
 
     public void adicionarPerfil(Perfil perfil) {
         this.perfis.add(perfil);
+    }
+
+    public void atualizar(@Valid DadosAtualizarUsuario dados) {
+        if (dados.nome() != null){
+            this.nome = dados.nome();
+        }
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 }
