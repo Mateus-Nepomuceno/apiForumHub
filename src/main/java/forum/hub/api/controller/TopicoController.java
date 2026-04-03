@@ -2,7 +2,9 @@ package forum.hub.api.controller;
 
 import forum.hub.api.domain.curso.CursoRepository;
 import forum.hub.api.domain.topico.*;
+import forum.hub.api.domain.usuario.Usuario;
 import forum.hub.api.domain.usuario.UsuarioRepository;
+import forum.hub.api.infra.exception.UsuarioInvalido;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -24,6 +27,8 @@ public class TopicoController {
     private CursoRepository cursoRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private TopicoService topicoService;
 
     @PostMapping
     @Transactional
@@ -52,15 +57,18 @@ public class TopicoController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizarTopico dados, @PathVariable Long id){
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizarTopico dados, @PathVariable Long id, @AuthenticationPrincipal Usuario usuarioLogado){
         var topico = topicoRepository.getReferenceById(id);
+        topicoService.validaUsuario(topico,usuarioLogado);
         topico.atualizar(dados);
         return ResponseEntity.ok(new DadosDetalhamentoTopicos(topico));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id){
+    public ResponseEntity excluir(@PathVariable Long id, @AuthenticationPrincipal Usuario usuarioLogado){
+        var topico = topicoRepository.getReferenceById(id);
+        topicoService.validaUsuario(topico,usuarioLogado);
         topicoRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
