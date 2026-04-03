@@ -15,9 +15,13 @@ API REST que fornece as funcionalidades de backend para um fórum de discussões
 ## Funcionalidades
 
 * **Autenticação (`/auth`):** Login de usuários e geração de token JWT.
-* **Tópicos (`/topicos`):** CRUD completo (Cadastro, Listagem paginada, Detalhamento, Atualização e Exclusão) de tópicos.
-* **Cursos (`/cursos`):** Cadastro de novos cursos.
-* **Usuários (`/usuarios`):** Cadastro de usuários com atribuição de perfil.
+
+Endpoints com CRUD completo (Cadastro, Listagem paginada, Detalhamento, Atualização e Exclusão):
+* **Tópicos (`/topicos`)**
+* **Respostas (`/topicos/{topicoId}/respostas`)**
+* **Cursos (`/cursos`)** 
+* **Usuários (`/usuarios`)**
+
 
 ## Como Executar
 
