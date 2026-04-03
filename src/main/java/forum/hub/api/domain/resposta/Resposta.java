@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Entity(name = "Resposta")
 @Table(name = "respostas")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -33,5 +32,11 @@ public class Resposta {
         this.autor = usuarioLogado;
         this.solucao = false;
         this.topico = topico;
+    }
+
+    public void atualizar(DadosAtualizarResposta dados) {
+        if (dados.mensagem() != null){
+            this.mensagem = dados.mensagem();
+        }
     }
 }

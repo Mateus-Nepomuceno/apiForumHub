@@ -51,11 +51,15 @@ public class Topico {
         if (dados.mensagem() != null) {
             this.mensagem = dados.mensagem();
         }
+        if (dados.status() != null) {
+            this.status = dados.status();
+        }
     }
 
     public void adicionarResposta(Resposta resposta){
         this.respostas.add(resposta);
-        this.status = Status.RESPONDIDO;
-        resposta.setTopico(this);
+        if (this.status == Status.NAO_RESPONDIDO) {
+            this.status = Status.RESPONDIDO; // ou Status.NAO_SOLUCIONADO
+        }
     }
 }
