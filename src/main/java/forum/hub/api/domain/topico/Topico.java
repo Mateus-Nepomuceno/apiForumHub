@@ -52,4 +52,10 @@ public class Topico {
             this.mensagem = dados.mensagem();
         }
     }
+
+    public void adicionarResposta(Resposta resposta){
+        this.respostas.add(resposta);
+        this.status = Status.RESPONDIDO;
+        resposta.setTopico(this);
+    }
 }

@@ -17,6 +17,6 @@ public class SpringDocConfigurations {
                                 new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .info(new Info()
                         .title("ForumHub API")
-                        .description("API Rest da aplicação ForumHub, contendo as funcionalidades de CRUD de topicos, usuarios e cursos."));
+                        .description("API Rest da aplicação ForumHub, contendo as funcionalidades de CRUD de topicos, respostas, usuarios e cursos."));
     }
 }

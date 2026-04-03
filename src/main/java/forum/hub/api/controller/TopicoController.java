@@ -3,8 +3,6 @@ package forum.hub.api.controller;
 import forum.hub.api.domain.curso.CursoRepository;
 import forum.hub.api.domain.topico.*;
 import forum.hub.api.domain.usuario.Usuario;
-import forum.hub.api.domain.usuario.UsuarioRepository;
-import forum.hub.api.infra.exception.UsuarioInvalido;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +24,14 @@ public class TopicoController {
     @Autowired
     private CursoRepository cursoRepository;
     @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
     private TopicoService topicoService;
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTopico dados, UriComponentsBuilder uriBuilder){
-        var autor = usuarioRepository.getReferenceById(dados.autorId());
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTopico dados, UriComponentsBuilder uriBuilder, @AuthenticationPrincipal Usuario usuarioLogado){
         var curso = cursoRepository.getReferenceById(dados.cursoId());
 
-        var topico = new Topico(dados, autor, curso);
+        var topico = new Topico(dados, usuarioLogado, curso);
         topicoRepository.save(topico);
         var uri = uriBuilder.path("topicos/{id}").buildAndExpand(topico.getId()).toUri();
 

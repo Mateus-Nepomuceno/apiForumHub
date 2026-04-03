@@ -3,16 +3,15 @@ package forum.hub.api.domain.resposta;
 import forum.hub.api.domain.topico.Topico;
 import forum.hub.api.domain.usuario.Usuario;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.Valid;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity(name = "Resposta")
 @Table(name = "respostas")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -27,4 +26,12 @@ public class Resposta {
     @ManyToOne
     private Usuario autor;
     private Boolean solucao;
+
+    public Resposta(@Valid DadosCadastroResposta dados,Topico topico, Usuario usuarioLogado) {
+        this.mensagem = dados.mensagem();
+        this.dataCriacao = LocalDate.now();
+        this.autor = usuarioLogado;
+        this.solucao = false;
+        this.topico = topico;
+    }
 }

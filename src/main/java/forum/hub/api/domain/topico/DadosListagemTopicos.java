@@ -1,8 +1,5 @@
 package forum.hub.api.domain.topico;
 
-import forum.hub.api.domain.curso.DadosListagemCurso;
-import forum.hub.api.domain.usuario.DadosListagemUsuario;
-
 import java.time.LocalDate;
 
 public record DadosListagemTopicos(
